@@ -1,0 +1,13 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation project(':commons')
+
+    testImplementation testLibraries.expectKt
+    testImplementation testLibraries.mockk
+    testImplementation testLibraries.kotlinTestRunner
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
