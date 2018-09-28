@@ -1,9 +1,9 @@
-package io.melbybaldove.investagramsexam.ui.login.di
+package io.melbybaldove.investagramsexam.ui.home.di
 
 import dagger.Module
 import dagger.Provides
-import io.melbybaldove.investagramsexam.ui.login.LoginActivity
 import io.melbybaldove.investagramsexam.dagger.scope.PerFragment
+import io.melbybaldove.investagramsexam.ui.home.HomeActivity
 import io.melbybaldove.investagramsexam.ui.util.DialogHelper
 import io.melbybaldove.investagramsexam.ui.util.DialogHelperImpl
 
@@ -12,8 +12,8 @@ import io.melbybaldove.investagramsexam.ui.util.DialogHelperImpl
  * melbourne.baldove@owtoph.com
  */
 @Module
-class LoginModule {
+class HomeModule {
     @PerFragment
     @Provides
-    fun provideDialogHelper(activity: LoginActivity): DialogHelper = DialogHelperImpl(activity)
+    fun provideDialogHelper(activity: HomeActivity): DialogHelper = DialogHelperImpl(activity)
 }

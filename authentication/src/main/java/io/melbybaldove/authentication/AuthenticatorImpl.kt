@@ -4,6 +4,7 @@ import io.melbybaldove.authentication.api.AuthenticationApi
 import io.melbybaldove.authentication.api.CreateSessionRequest
 import io.melbybaldove.authentication.api.ValidateRequestTokenRequest
 import io.melbybaldove.data.auth.TokenRepository
+import io.melbybaldove.data.exception.NotFoundException
 import javax.inject.Inject
 
 class AuthenticatorImpl @Inject constructor(private val authenticationApi: AuthenticationApi,
@@ -14,4 +15,10 @@ class AuthenticatorImpl @Inject constructor(private val authenticationApi: Authe
             .map { it.session_id }
             .flatMap(tokenRepository::saveToken)
             .map { it.token }!!
+
+    override fun isAuthenticated() = tokenRepository.getToken().map { true }.onErrorReturn {
+        if (it is NotFoundException) {
+            false
+        } else throw it
+    }.blockingGet()!!
 }

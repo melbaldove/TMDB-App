@@ -8,4 +8,5 @@ import io.reactivex.Single
  */
 interface Authenticator {
     fun authenticateWith(username: String, password: String): Single<String>
+    fun isAuthenticated(): Boolean
 }

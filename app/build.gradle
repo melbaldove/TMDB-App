@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "API_KEY", "\"3795166fe593e101c19c82ed29345417\""
         buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -29,6 +30,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':authentication')
@@ -37,6 +42,7 @@ dependencies {
     implementation project(':presentation')
     implementation project(':commons')
     implementation project(':local')
+    implementation project(':remote')
 
     // Android Framework
     implementation libraries.navigationFragment
@@ -48,6 +54,12 @@ dependencies {
 
     // UI
     implementation libraries.materialDialogs
+    implementation libraries.epoxy
+    kapt libraries.epoxyProcessor
+
+    // Imageloading
+    implementation libraries.glide
+    kapt libraries.glideCompiler
 
     // Network
     implementation libraries.retrofit
@@ -72,6 +84,7 @@ dependencies {
     // Timber
     implementation libraries.timber
 
+    implementation libraries.multidex
     implementation libraries.kotlin
     testImplementation testLibraries.junit
     androidTestImplementation testLibraries.runner

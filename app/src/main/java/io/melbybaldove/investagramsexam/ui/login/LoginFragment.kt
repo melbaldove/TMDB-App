@@ -54,6 +54,6 @@ class LoginFragment : BaseMvRxDaggerFragment() {
     }
 
     private fun proceedToMainScreen() {
-
+        fragmentManager?.popBackStack()
     }
 }

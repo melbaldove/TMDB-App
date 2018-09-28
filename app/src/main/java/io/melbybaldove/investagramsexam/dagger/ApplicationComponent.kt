@@ -9,6 +9,7 @@ import io.melbybaldove.investagramsexam.InvestagramsExamApplication
 import io.melbybaldove.investagramsexam.authentication.AuthenticationModule
 import io.melbybaldove.investagramsexam.data.DataModule
 import io.melbybaldove.investagramsexam.local.LocalModule
+import io.melbybaldove.investagramsexam.remote.RemoteModule
 import io.melbybaldove.presentation.di.PresentationAssistedModule
 import javax.inject.Singleton
 
@@ -19,7 +20,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [(AndroidSupportInjectionModule::class),
     (ApplicationModule::class), (ActivityBuilder::class), (PresentationAssistedModule::class),
-    (AuthenticationModule::class), (NetworkModule::class), (LocalModule::class), (DataModule::class)])
+    (AuthenticationModule::class), (NetworkModule::class), (LocalModule::class), (DataModule::class),
+    (RemoteModule::class)])
 interface ApplicationComponent : AndroidInjector<InvestagramsExamApplication> {
     @Component.Builder
     interface Builder {

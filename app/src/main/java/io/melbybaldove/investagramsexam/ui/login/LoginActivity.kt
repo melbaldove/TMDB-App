@@ -1,14 +1,15 @@
-package io.melbybaldove.investagramsexam
+package io.melbybaldove.investagramsexam.ui.login
 
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import dagger.android.support.DaggerAppCompatActivity
+import io.melbybaldove.investagramsexam.R
 import io.melbybaldove.presentation.ViewModelFactoryProvider
 import io.melbybaldove.presentation.auth.AuthViewModel
 import io.melbybaldove.presentation.movie.MovieViewModel
 import javax.inject.Inject
 
-class MainActivity : DaggerAppCompatActivity(), ViewModelFactoryProvider {
+class LoginActivity : DaggerAppCompatActivity(), ViewModelFactoryProvider {
     @Inject
     override
     lateinit var authViewModelFactory: AuthViewModel.Factory
@@ -17,14 +18,11 @@ class MainActivity : DaggerAppCompatActivity(), ViewModelFactoryProvider {
     lateinit var movieViewModelFactory: MovieViewModel.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // becuz i wanna show splash for 1 second :p
-        Thread.sleep(1000)
-        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val navHost = NavHostFragment.create(R.navigation.nav_graph)
+        setContentView(R.layout.activity_login)
+        val navHost = NavHostFragment.create(R.navigation.login_nav_graph)
         supportFragmentManager.beginTransaction()
-                .replace(R.id.main_nav_host_fragment, navHost)
+                .replace(R.id.login_nav_host_fragment, navHost)
                 .setPrimaryNavigationFragment(navHost)
                 .commit()
     }

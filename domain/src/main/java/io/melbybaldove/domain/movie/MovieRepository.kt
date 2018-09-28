@@ -1,6 +1,5 @@
 package io.melbybaldove.domain.movie
 
-import io.melbybaldove.commons.RequestOptions
 import io.melbybaldove.domain.movie.entity.Movie
 import io.reactivex.Single
 
@@ -9,5 +8,5 @@ import io.reactivex.Single
  * melbourne.baldove@owtoph.com
  */
 interface MovieRepository {
-    fun getTrending(requestOptions: RequestOptions): Single<List<Movie>>
+    fun getTrending(): Single<List<Movie>>
 }
