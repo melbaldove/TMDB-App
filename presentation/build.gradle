@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -25,10 +28,23 @@ android {
 }
 
 dependencies {
+    implementation project(':commons')
+    implementation project(':authentication')
+    implementation project(':domain')
+    implementation(libraries.kotlin) {
+        force = true
+    }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-    implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation libraries.appcompatv7
+    implementation libraries.kodein
+    implementation libraries.mvrx
+    implementation libraries.daggerAndroid
+    implementation libraries.assistedInjectDagger
+    kapt libraries.assistedInjectDaggerProcessor
+    testImplementation testLibraries.junit
+    androidTestImplementation testLibraries.runner
+    androidTestImplementation testLibraries.espressoCore
+    testImplementation testLibraries.expectKt
+    testImplementation testLibraries.mockk
+    testImplementation testLibraries.kotlinTestRunner
 }

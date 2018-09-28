@@ -20,6 +20,11 @@ ext {
     playServicesVersion = "16.0.0"
     crashlyticsVersion = "2.9.5"
 
+    // Network
+    okHttpVersion = "3.9.0"
+    retrofitVersion = "2.3.0"
+    loggingInterceptorVersion = "3.9.0"
+
     // ReactiveX
     rxJavaVersion = "2.1.0"
     rxAndroidVersion = "2.0.1"
@@ -30,6 +35,9 @@ ext {
     // Dagger2 (DI Framework)
     daggerVersion = "2.14.1"
 
+    // Assisted Inject
+    assistedInjectDaggerVersion = "0.2.1"
+
     // Kodein (DI Container)
     kodeinVersion = "5.2.0"
 
@@ -38,6 +46,9 @@ ext {
 
     // Social
     fbSdkVersion = "4.34.0"
+
+    // Timber
+    timberVersion = "4.7.1"
 
     // Misc
     javaxInjectVersion = '1'
@@ -71,6 +82,16 @@ ext {
             playServices          : "com.google.android.gms:play-services-auth:$playServicesVersion",
             crashlytics           : "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion",
 
+            // Network
+            retrofit              : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitAdapterRxJava : "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
+            retrofitConverterGson : "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            loggingInterceptor    : "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorVersion",
+            okHttp                : "com.squareup.okhttp3:okhttp:$okHttpVersion",
+
+            // Timber
+            timber                : "com.jakewharton.timber:timber:$timberVersion",
+
             // ReactiveX
             rxJava                : "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
             rxAndroid             : "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
@@ -84,9 +105,14 @@ ext {
             daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
             daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
 
+            // Assisted Inject
+            assistedInjectDagger : "com.squareup.inject:assisted-inject-annotations-dagger2:$assistedInjectDaggerVersion",
+            assistedInjectDaggerProcessor : "com.squareup.inject:assisted-inject-processor-dagger2:$assistedInjectDaggerVersion",
+
             // Kodein
             kodein                : "org.kodein.di:kodein-di-generic-jvm:$kodeinVersion",
             kodeinAndroidSupport  : "org.kodein.di:kodein-di-framework-android-support:$kodeinVersion",
+
             // Mvrx
             mvrx                  : "com.airbnb.android:mvrx:$mvrxVersion",
 
