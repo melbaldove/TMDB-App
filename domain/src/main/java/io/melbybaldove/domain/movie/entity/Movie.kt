@@ -11,7 +11,7 @@ data class Movie(
         val id: String,
         val title: String,
         val poster: URI,
-        val date: Date,
+        val date: Date?,
         val description: String
 ) {
     companion object {

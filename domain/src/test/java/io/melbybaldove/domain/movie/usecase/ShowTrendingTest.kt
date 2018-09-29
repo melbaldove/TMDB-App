@@ -26,11 +26,11 @@ class ShowTrendingTest : StringSpec() {
     }
 
     init {
-        "given when execute() should return list of trending movies" {
+        "given when execute() should emit list of trending movies" {
             val trendingMovies = (1..5).map { Movie.createTestMovie() }
-            every { movieRepository.getTrending(RequestOptions()) } returns Single.just(trendingMovies)
+            every { movieRepository.getTrending() } returns Single.just(trendingMovies)
 
-            testObserver = showTrending.execute(RequestOptions()).test()
+            testObserver = showTrending.execute().test()
 
             testObserver.assertValue(trendingMovies)
         }

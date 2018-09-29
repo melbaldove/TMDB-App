@@ -4,13 +4,15 @@ import android.support.v4.app.FragmentActivity
 import com.airbnb.mvrx.*
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
+import io.melbybaldove.commons.ErrorModel
 import io.melbybaldove.commons.LoadingOptions
+import io.melbybaldove.commons.RequestOptions
 import io.melbybaldove.commons.rx.SchedulerProvider
 import io.melbybaldove.domain.movie.MovieInteractor
+import io.melbybaldove.domain.movie.entity.SearchMoviesRequest
 import io.melbybaldove.presentation.ViewModelFactoryProvider
-import io.melbybaldove.presentation.movie.model.MovieModel
-import java.text.SimpleDateFormat
-import java.util.*
+import io.melbybaldove.presentation.movie.model.MovieModelMapper
+import io.melbybaldove.presentation.pagination.PaginationState
 
 /**
  * @author Melby Baldove
@@ -21,8 +23,6 @@ class MovieViewModel @AssistedInject constructor(
         private val schedulerProvider: SchedulerProvider,
         private val movieInteractor: MovieInteractor)
     : BaseMvRxViewModel<MovieViewState>(initialState = initialState, debugMode = BuildConfig.DEBUG) {
-
-    private val df = SimpleDateFormat("MMM dd, yyy", Locale.US)
     @AssistedInject.Factory
     interface Factory {
         fun create(initialState: MovieViewState): MovieViewModel
@@ -34,6 +34,8 @@ class MovieViewModel @AssistedInject constructor(
                 (activity as ViewModelFactoryProvider).movieViewModelFactory.create(state)
     }
 
+    private var paginationState: PaginationState? = null
+
     fun loadTrending() = movieInteractor.showTrending.execute()
             .compose(schedulerProvider.ioToUi())
             .execute {
@@ -41,16 +43,48 @@ class MovieViewModel @AssistedInject constructor(
                     is Loading -> copy(loadingOptions = LoadingOptions(true))
                     is Success -> copy(
                             loadingOptions = LoadingOptions(isLoading = false),
-                            movies = it()!!.map { movie ->
-                                MovieModel(id = movie.id,
-                                        title = movie.title,
-                                        poster = movie.poster,
-                                        date = df.format(movie.date),
-                                        desc = movie.description)
-                            }
+                            movies = it()!!.map(MovieModelMapper::map),
+                            screenState = ScreenState.TRENDING
                     )
-                    is Fail -> this
+                    is Fail -> copy(loadingOptions = LoadingOptions(false),
+                            error = ErrorModel(message = it.error.localizedMessage))
                     else -> this
                 }
             }
+
+    fun searchMovies(query: String, loadMore: Boolean = false) {
+        val requestOptions = if (loadMore && hasMoreToLoad()) {
+            RequestOptions(page = paginationState!!.page + 1)
+        } else {
+            RequestOptions(page = 1)
+        }
+        movieInteractor.searchMovies
+                .execute(request = SearchMoviesRequest(query = query, requestOptions = requestOptions))
+                .compose(schedulerProvider.ioToUi())
+                .execute {
+                    when (it) {
+                        is Loading -> copy(loadingOptions = LoadingOptions(true))
+                        is Success -> {
+                            val paginatedResult = it()!!
+                            paginationState = PaginationState.fromPaginatedResult(paginatedResult)
+                            copy(loadingOptions = LoadingOptions(false),
+                                    movies = paginatedResult.results.map(MovieModelMapper::map),
+                                    screenState = ScreenState.SEARCH,
+                                    query = query)
+                        }
+                        is Fail -> copy(loadingOptions = LoadingOptions(false),
+                                error = ErrorModel(message = it.error.localizedMessage))
+                        else -> this
+                    }
+                }
+    }
+
+    fun loadMoreSearchResults() {
+        // TODO Handle errors for this
+        withState {
+            searchMovies(it.query, true)
+        }
+    }
+
+    fun hasMoreToLoad() = paginationState?.let { it.page < it.totalPages } ?: false
 }

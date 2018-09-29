@@ -12,5 +12,12 @@ import io.melbybaldove.presentation.movie.model.MovieModel
 data class MovieViewState(
         val loadingOptions: LoadingOptions = LoadingOptions(false),
         val error: ErrorModel? = null,
-        val movies: List<MovieModel>? = null
+        val movies: List<MovieModel>? = null,
+        val query: String = "",
+        val screenState: ScreenState = ScreenState.TRENDING
 ) : MvRxState
+
+enum class ScreenState {
+    TRENDING,
+    SEARCH
+}

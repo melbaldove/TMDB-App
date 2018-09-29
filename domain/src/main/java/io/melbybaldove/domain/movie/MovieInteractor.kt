@@ -1,5 +1,6 @@
 package io.melbybaldove.domain.movie
 
+import io.melbybaldove.domain.movie.usecase.SearchMovies
 import io.melbybaldove.domain.movie.usecase.ShowTrending
 import javax.inject.Inject
 
@@ -7,4 +8,5 @@ import javax.inject.Inject
  * @author Melby Baldove
  * melbourne.baldove@owtoph.com
  */
-class MovieInteractor @Inject constructor(val showTrending: ShowTrending)
+class MovieInteractor @Inject constructor(val showTrending: ShowTrending,
+                                          val searchMovies: SearchMovies)

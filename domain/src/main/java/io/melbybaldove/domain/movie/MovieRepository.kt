@@ -1,5 +1,7 @@
 package io.melbybaldove.domain.movie
 
+import io.melbybaldove.commons.PaginatedResult
+import io.melbybaldove.commons.RequestOptions
 import io.melbybaldove.domain.movie.entity.Movie
 import io.reactivex.Single
 
@@ -9,4 +11,5 @@ import io.reactivex.Single
  */
 interface MovieRepository {
     fun getTrending(): Single<List<Movie>>
+    fun searchMovies(query: String, requestOptions: RequestOptions): Single<PaginatedResult<Movie>>
 }

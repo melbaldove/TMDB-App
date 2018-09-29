@@ -14,9 +14,9 @@ object MovieEntityMapper : Mapper<MovieEntity, Movie> {
     private val df = SimpleDateFormat("yyy-MM-DD", Locale.US)
     override fun map(from: MovieEntity) = Movie(
             id = from.id.toString(),
-            title = from.title,
-            description = from.overview,
+            title = from.title ?: "No Title",
+            description = from.overview ?: "No Overview",
             poster = URI("https://image.tmdb.org/t/p/w500${from.poster_path}"),
-            date = df.parse(from.release_date)
+            date = (if (!from.release_date.isNullOrEmpty()) from.release_date else null)?.let(df::parse)
     )
 }
