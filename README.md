@@ -6,6 +6,7 @@ Written using Kotlin, Clean Architecture, RxJava, Dagger 2, Retrofit 2, MvRx (an
 Navigation Components, Epoxy
 
 Paginated search results
+
 Unit-tested some of the domain classes
 
 Built using:
