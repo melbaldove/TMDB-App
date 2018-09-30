@@ -8,7 +8,8 @@ import io.melbybaldove.data.exception.NotFoundException
 import javax.inject.Inject
 
 class AuthenticatorImpl @Inject constructor(private val authenticationApi: AuthenticationApi,
-                                            private val tokenRepository: TokenRepository) : Authenticator {
+                                            private val tokenRepository: TokenRepository,
+                                            private val sessionIdInterceptor: SessionIdInterceptor) : Authenticator {
     override fun authenticateWith(username: String, password: String) = authenticationApi.createRequestToken()
             .flatMap { authenticationApi.validateRequestToken(ValidateRequestTokenRequest(username, password, it.request_token)) }
             .flatMap { authenticationApi.createSession(CreateSessionRequest(it.request_token)) }
@@ -16,9 +17,14 @@ class AuthenticatorImpl @Inject constructor(private val authenticationApi: Authe
             .flatMap(tokenRepository::saveToken)
             .map { it.token }!!
 
-    override fun isAuthenticated() = tokenRepository.getToken().map { true }.onErrorReturn {
-        if (it is NotFoundException) {
-            false
-        } else throw it
-    }.blockingGet()!!
+    override fun isAuthenticated(): Boolean {
+        return tokenRepository.getToken().map {
+            sessionIdInterceptor.sessionId = it.token
+            true
+        }.onErrorReturn {
+            if (it is NotFoundException) {
+                false
+            } else throw it
+        }.blockingGet()!!
+    }
 }

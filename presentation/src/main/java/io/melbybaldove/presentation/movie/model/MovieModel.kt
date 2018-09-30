@@ -11,5 +11,7 @@ data class MovieModel(
         val poster: URI,
         val title: String,
         val date: String,
+        val rating: String,
+        val totalRates: String,
         val desc: String
 )

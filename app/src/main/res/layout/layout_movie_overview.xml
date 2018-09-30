@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/layout_movie_overview_backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/colorPrimaryDark" />
+
+    <ImageView
+        android:id="@+id/layout_movie_overview_poster"
+        android:layout_width="164dp"
+        android:layout_height="240dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layout_movie_overview_backdrop"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:background="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#fff"
+
+        android:textSize="28sp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_poster"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Star Wars" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_release_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="#ccc"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_poster"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_title"
+        tools:text="1 December 1989" />
+
+    <ImageView
+        android:id="@+id/layout_movie_rating_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+
+        android:src="@drawable/ic_star"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_totalRates"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_poster"
+        app:layout_constraintTop_toTopOf="@id/layout_movie_overview_rating" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:includeFontPadding="false"
+        android:textColor="#fff"
+        android:textSize="28sp"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_rating_icon"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_release_date"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="2dp"
+        android:text="@string/_10"
+        android:textColor="#aaa"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_rating"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_rating" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_totalRates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:paddingTop="4dp"
+        android:textColor="#aaa"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_rating"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_rating_icon"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_rating"
+        tools:text="600" />
+
+    <View
+        android:id="@+id/layout_movie_overview_divider"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="12dp"
+        android:background="#aaa"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_totalRates"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_tv1"
+        app:layout_constraintTop_toTopOf="@id/layout_movie_overview_rating" />
+
+    <ImageView
+        android:id="@+id/layout_movie_overview_myRating_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_star_rated"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_divider"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_divider"
+        app:layout_constraintTop_toTopOf="@id/layout_movie_overview_divider" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#aaa"
+        android:includeFontPadding="false"
+        android:text="Rate\nThis"
+        android:layout_marginStart="4dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_divider"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_myRating_icon"
+        app:layout_constraintTop_toTopOf="@id/layout_movie_overview_divider" />
+    
+    <TextView
+        android:id="@+id/layout_movie_overview_myRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="8"
+        android:visibility="invisible"
+        android:layout_marginStart="4dp"
+        app:layout_constraintTop_toTopOf="@id/layout_movie_overview_rating"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_myRating_icon"
+        android:includeFontPadding="false"
+        android:textColor="#fff"
+        android:textSize="28sp"
+        />
+    <TextView
+        android:id="@+id/layout_movie_overview_tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:visibility="invisible"
+        android:text="You"
+        android:layout_marginStart="4dp"
+        android:paddingTop="4dp"
+        android:textColor="#aaa"
+        android:visibility="invisible"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_myRating"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_myRating"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_myRating_icon"/>
+    <LinearLayout
+        android:id="@+id/layout_movie_overview_rating_layout"
+        android:background="@drawable/rating_radius"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_divider"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="4dp"
+        android:layout_width="320dp"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/layout_movie_overview_ratingBar"
+            style="@style/Widget.MaterialRatingBar.RatingBar"
+            android:numStars="10"
+            app:mrb_progressTint="#6B90E6"
+            app:mrb_secondaryProgressTint="#6B90E6"
+            app:mrb_progressBackgroundTint="#aaa"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/layout_movie_overview_watchlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/border_button"
+        android:text="Add to watchlist"
+        android:textColor="#ccc"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_poster" />
+
+
+    <TextView
+        android:id="@+id/layout_movie_overview_overview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:textColor="#ccc"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/layout_movie_overview_cast_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_movie_overview_watchlist"
+
+        tools:text=". Etiam erat dui, porttitor ut risus ac, tristique tempor mi. Nunc leo ex, bibendum id lacus a, dignissim condimentum mi. Nunc lacinia fringilla ullamcorper." />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_cast_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Starring:"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/layout_movie_overview_director_label"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_cast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="#ccc"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_cast_label"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_cast_label"
+        tools:text="Melby Baldove, Jena Gonzales" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_director_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+
+        android:text="Director:"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_backdrop"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/layout_movie_overview_director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="#ccc"
+
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_movie_overview_director_label"
+        app:layout_constraintLeft_toRightOf="@id/layout_movie_overview_director_label"
+        tools:text="Melby Baldove" />
+</android.support.constraint.ConstraintLayout>

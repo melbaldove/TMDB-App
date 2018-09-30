@@ -7,16 +7,21 @@ import io.melbybaldove.presentation.movie.model.MovieModel
  * @author Melby Baldove
  * melbourne.baldove@owtoph.com
  */
-class SearchResultsController(private val scrollListener: InfiniteScrollListener) : EpoxyController() {
+class SearchResultsController(private val scrollListener: InfiniteScrollListener,
+                              private val listener: (MovieModel) -> Unit) : EpoxyController() {
     private var isLoading = false
     private var movies = arrayListOf<MovieModel>()
     private var query = ""
+    private var mostRecentAppend: List<MovieModel>? = null
 
     fun appendMovies(movies: List<MovieModel>, query: String) {
-        this.movies.addAll(movies)
-        this.isLoading = false
-        this.query = query
-        requestModelBuild()
+        if(mostRecentAppend != movies) {
+            mostRecentAppend = movies
+            this.movies.addAll(movies)
+            this.isLoading = false
+            this.query = query
+            requestModelBuild()
+        }
     }
 
     fun reset() {
@@ -34,6 +39,7 @@ class SearchResultsController(private val scrollListener: InfiniteScrollListener
             movie {
                 id(it.id)
                 movie(it)
+                listener(listener)
             }
         }
         if (scrollListener.hasMoreToLoad())

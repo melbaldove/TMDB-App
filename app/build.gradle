@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 28
@@ -50,16 +51,20 @@ dependencies {
     implementation libraries.appcompatv7
     implementation libraries.design
     implementation libraries.constraintLayout
+    implementation libraries.palette
+
     implementation libraries.mvrx
 
     // UI
     implementation libraries.materialDialogs
     implementation libraries.epoxy
     kapt libraries.epoxyProcessor
+    implementation libraries.materialRatingBar
 
     // Imageloading
     implementation libraries.glide
     kapt libraries.glideCompiler
+    implementation libraries.glideTransformations
 
     // Network
     implementation libraries.retrofit

@@ -15,5 +15,7 @@ object MovieModelMapper : Mapper<Movie, MovieModel> {
             title = from.title,
             poster = from.poster,
             date = from.date?.let(df::format) ?: "N/A",
-            desc = from.description)
+            desc = from.description,
+            rating = from.rating.toString(),
+            totalRates = from.totalRates.toString())
 }

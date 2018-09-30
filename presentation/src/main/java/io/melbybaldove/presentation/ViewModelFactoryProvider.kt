@@ -2,6 +2,7 @@ package io.melbybaldove.presentation
 
 import io.melbybaldove.presentation.auth.AuthViewModel
 import io.melbybaldove.presentation.movie.MovieViewModel
+import io.melbybaldove.presentation.movie.detail.MovieDetailViewModel
 
 /**
  * @author Melby Baldove
@@ -10,4 +11,5 @@ import io.melbybaldove.presentation.movie.MovieViewModel
 interface ViewModelFactoryProvider {
     val authViewModelFactory: AuthViewModel.Factory
     val movieViewModelFactory: MovieViewModel.Factory
+    val movieDetailViewModelFactory: MovieDetailViewModel.Factory
 }

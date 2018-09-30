@@ -35,6 +35,7 @@ dependencies {
     }
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation libraries.appcompatv7
+    implementation libraries.gson
     implementation libraries.retrofit
     testImplementation testLibraries.junit
     androidTestImplementation testLibraries.runner

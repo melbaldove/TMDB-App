@@ -5,6 +5,7 @@ import android.support.v7.widget.SearchView
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
+import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import io.melbybaldove.authentication.Authenticator
@@ -17,6 +18,7 @@ import io.melbybaldove.investagramsexam.ui.util.DialogHelper
 import io.melbybaldove.presentation.movie.MovieViewModel
 import io.melbybaldove.presentation.movie.ScreenState.SEARCH
 import io.melbybaldove.presentation.movie.ScreenState.TRENDING
+import io.melbybaldove.presentation.movie.detail.MovieDetailViewModel
 import io.melbybaldove.presentation.movie.model.MovieModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -31,7 +33,7 @@ class HomeFragment : BaseMvRxDaggerFragment() {
     @Inject
     lateinit var dialogHelper: DialogHelper
     private val movieViewModel: MovieViewModel by fragmentViewModel()
-    private val movieController = MovieEpoxyController()
+    private val movieController = MovieEpoxyController(::showMovieDetails)
     private var currentController: EpoxyController? = null
     private var searchViewMenuItem: MenuItem? = null
 
@@ -41,7 +43,7 @@ class HomeFragment : BaseMvRxDaggerFragment() {
             findNavController().navigate(R.id.action_login)
         }
         setHasOptionsMenu(true)
-        movieController.setListener(::showMovieDetails)
+        loadTrending()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,7 +57,12 @@ class HomeFragment : BaseMvRxDaggerFragment() {
             searchViewMenuItem?.collapseActionView()
             loadTrending()
         }
-        loadTrending()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        currentController?.let(fragment_home_recycler::setController)
     }
 
     override fun invalidate() {
@@ -70,7 +77,6 @@ class HomeFragment : BaseMvRxDaggerFragment() {
                 return@withState
             }
 
-
             state.movies ?: return@withState
             when (state.screenState) {
                 TRENDING -> showTrendingMovies(state.movies!!)
@@ -80,10 +86,6 @@ class HomeFragment : BaseMvRxDaggerFragment() {
     }
 
     private fun loadTrending() {
-        if(currentController != movieController) {
-            currentController = movieController
-            fragment_home_recycler.setController(movieController)
-        }
         movieViewModel.loadTrending()
     }
 
@@ -93,10 +95,14 @@ class HomeFragment : BaseMvRxDaggerFragment() {
         override fun hasMoreToLoad() = movieViewModel.hasMoreToLoad()
     }
 
-    private val searchResultsController = SearchResultsController(scrollListener)
+    private val searchResultsController = SearchResultsController(scrollListener, ::showMovieDetails)
 
     private fun showTrendingMovies(movies: List<MovieModel>) {
         movieController.setMovies(movies)
+        if (currentController != movieController) {
+            currentController = movieController
+            fragment_home_recycler.setController(movieController)
+        }
     }
 
     private fun showSearchResults(movies: List<MovieModel>, query: String) {
@@ -108,7 +114,7 @@ class HomeFragment : BaseMvRxDaggerFragment() {
     }
 
     private fun showMovieDetails(movie: MovieModel) {
-
+        findNavController().navigate(HomeFragmentDirections.actionMovieDetail(movie.id))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -132,6 +138,7 @@ class HomeFragment : BaseMvRxDaggerFragment() {
                 movieViewModel.searchMovies(p0!!)
                 return true
             }
+
             override fun onQueryTextChange(p0: String?) = false
         })
     }

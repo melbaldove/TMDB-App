@@ -10,6 +10,18 @@
         <action
             android:id="@+id/action_login"
             app:destination="@id/loginActivity" />
+        <action
+            android:id="@+id/action_movieDetail"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="io.melbybaldove.investagramsexam.ui.home.moviedetail.MovieDetailFragment"
+        android:label="MovieDetailFragment">
+        <argument
+            android:name="movieId"
+            app:argType="string"
+            />
     </fragment>
 
     <activity

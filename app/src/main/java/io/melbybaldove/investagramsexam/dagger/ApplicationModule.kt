@@ -4,10 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import io.melbybaldove.commons.rx.SchedulerProvider
+import io.melbybaldove.data.movie.entity.Rated
 import io.melbybaldove.investagramsexam.BuildConfig
+import io.melbybaldove.remote.movie.response.RatedDeserializer
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -39,5 +42,6 @@ class ApplicationModule {
 
     @Singleton
     @Provides
-    fun provideGson(): Gson = Gson()
+    fun provideGson(): Gson = GsonBuilder().registerTypeAdapter(Rated::class.java, RatedDeserializer())
+            .create()
 }
