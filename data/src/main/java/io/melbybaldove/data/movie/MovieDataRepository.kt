@@ -4,7 +4,9 @@ import io.melbybaldove.commons.PaginatedResult
 import io.melbybaldove.commons.RequestOptions
 import io.melbybaldove.data.movie.entity.MovieEntityMapper
 import io.melbybaldove.domain.movie.MovieRepository
+import io.melbybaldove.domain.movie.entity.Movie
 import io.reactivex.Completable
+import io.reactivex.Single
 import javax.inject.Inject
 
 /**
@@ -31,5 +33,4 @@ class MovieDataRepository @Inject constructor(private val remoteMovieSource: Rem
     override fun rateMovie(id: String, rating: Float): Completable = remoteMovieSource.rateMovie(id, rating)
 
     override fun deleteRating(id: String) = remoteMovieSource.deleteRating(id)
-
 }

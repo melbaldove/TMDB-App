@@ -31,4 +31,5 @@ class RemoteMovieSourceImpl @Inject constructor(private val movieApi: MovieApi) 
     override fun rateMovie(id: String, rating: Float) = movieApi.rateMovie(id, RateMovieRequest(rating))
 
     override fun deleteRating(id: String) = movieApi.deleteRating(id)
+
 }

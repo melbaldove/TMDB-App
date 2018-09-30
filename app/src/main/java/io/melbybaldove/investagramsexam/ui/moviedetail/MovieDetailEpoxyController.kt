@@ -1,4 +1,4 @@
-package io.melbybaldove.investagramsexam.ui.home.moviedetail
+package io.melbybaldove.investagramsexam.ui.moviedetail
 
 import com.airbnb.epoxy.Typed2EpoxyController
 import io.melbybaldove.presentation.movie.detail.model.MovieDetailModel
@@ -36,5 +36,6 @@ class MovieDetailEpoxyController(private val listener: Listener) : Typed2EpoxyCo
         fun rate(movie: MovieModel, rating: Float)
         fun deleteRating(movie: MovieModel)
         fun addToWatchlist(movie: MovieModel)
+        fun removeFromWatchlist(movie: MovieModel)
     }
 }

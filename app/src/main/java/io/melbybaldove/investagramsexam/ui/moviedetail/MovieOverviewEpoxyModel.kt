@@ -1,4 +1,4 @@
-package io.melbybaldove.investagramsexam.ui.home.moviedetail
+package io.melbybaldove.investagramsexam.ui.moviedetail
 
 import android.graphics.Bitmap
 import android.os.CountDownTimer
@@ -74,6 +74,20 @@ abstract class MovieOverviewEpoxyModel : EpoxyModelWithHolder<MovieOverviewEpoxy
                     View.GONE
                 } else {
                     View.VISIBLE
+                }
+            }
+            layout_movie_overview_watchlist.text = if (movieDetailModel.inWatchlist) {
+                "Remove from watchlist"
+            } else {
+                "Add to watchlist"
+            }
+            layout_movie_overview_watchlist.setOnClickListener {
+                layout_movie_overview_watchlist.text = if (layout_movie_overview_watchlist.text == "Add to watchlist") {
+                    listener.addToWatchlist(movieDetailModel.movieModel)
+                    "Remove from watchlist"
+                } else {
+                    listener.removeFromWatchlist(movieDetailModel.movieModel)
+                    "Add to watchlist"
                 }
             }
         }

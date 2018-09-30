@@ -1,4 +1,4 @@
-package io.melbybaldove.investagramsexam.ui.home.moviedetail
+package io.melbybaldove.investagramsexam.ui.moviedetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,11 +26,9 @@ class MovieDetailFragment : BaseMvRxDaggerFragment() {
     private val controller = MovieDetailEpoxyController(object : MovieDetailEpoxyController.Listener {
         override fun rate(movie: MovieModel, rating: Float) = viewModel.rate(movie, rating)
         override fun deleteRating(movie: MovieModel) = viewModel.deleteRating(movie)
+        override fun addToWatchlist(movie: MovieModel) = viewModel.addToWatchlist(movie)
 
-        override fun addToWatchlist(movie: MovieModel) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
+        override fun removeFromWatchlist(movie: MovieModel) = viewModel.removeFromWatchlist(movie)
     })
     @Inject
     lateinit var dialogHelper: DialogHelper
@@ -48,6 +46,7 @@ class MovieDetailFragment : BaseMvRxDaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragment_movie_detail_recycler.setController(controller)
+        activity?.title = "Details"
     }
 
     override fun invalidate() {
@@ -55,12 +54,18 @@ class MovieDetailFragment : BaseMvRxDaggerFragment() {
             dialogHelper.shouldShowLoading(LoadingOptions(isLoading = it.loadingOptions.isLoading))
             if (it.loadingOptions.isLoading) return@withState
 
+            it.errorModel?.let {error ->
+                dialogHelper.showError(error)
+                return@withState
+            }
+
             it.movie ?: return@withState
             showMovieDetail(it.movie!!, it.reviews!!)
         }
     }
-    
+
     private fun showMovieDetail(movie: MovieDetailModel, reviews: List<ReviewModel>) {
         controller.setData(movie, reviews)
+        activity?.title = movie.movieModel.title
     }
 }

@@ -8,9 +8,11 @@ import io.melbybaldove.commons.ErrorModel
 import io.melbybaldove.commons.LoadingOptions
 import io.melbybaldove.commons.RequestOptions
 import io.melbybaldove.commons.rx.SchedulerProvider
+import io.melbybaldove.domain.account.AccountInteractor
 import io.melbybaldove.domain.movie.MovieInteractor
 import io.melbybaldove.domain.movie.entity.SearchMoviesRequest
 import io.melbybaldove.presentation.ViewModelFactoryProvider
+import io.melbybaldove.presentation.movie.model.MovieModel
 import io.melbybaldove.presentation.movie.model.MovieModelMapper
 import io.melbybaldove.presentation.pagination.PaginationState
 
@@ -21,7 +23,8 @@ import io.melbybaldove.presentation.pagination.PaginationState
 class MovieViewModel @AssistedInject constructor(
         @Assisted initialState: MovieViewState,
         private val schedulerProvider: SchedulerProvider,
-        private val movieInteractor: MovieInteractor)
+        private val movieInteractor: MovieInteractor,
+        private val accountInteractor: AccountInteractor)
     : BaseMvRxViewModel<MovieViewState>(initialState = initialState, debugMode = BuildConfig.DEBUG) {
     @AssistedInject.Factory
     interface Factory {
@@ -80,11 +83,25 @@ class MovieViewModel @AssistedInject constructor(
     }
 
     fun loadMoreSearchResults() {
-        // TODO Handle errors for this
         withState {
             searchMovies(it.query, true)
         }
     }
+
+    fun loadWatchList() = accountInteractor.showWatchlist.execute()
+            .compose(schedulerProvider.ioToUi())
+            .execute {
+                when (it) {
+                    is Loading -> copy(loadingOptions = LoadingOptions(true))
+                    is Success -> copy(
+                            loadingOptions = LoadingOptions(isLoading = false),
+                            movies = it()!!.map(MovieModelMapper::map)
+                    )
+                    is Fail -> copy(loadingOptions = LoadingOptions(false),
+                            error = ErrorModel(message = it.error.localizedMessage))
+                    else -> this
+                }
+            }
 
     fun hasMoreToLoad() = paginationState?.let { it.page < it.totalPages } ?: false
 }

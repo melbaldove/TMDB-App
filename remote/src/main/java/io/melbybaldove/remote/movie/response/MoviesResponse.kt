@@ -6,4 +6,4 @@ import io.melbybaldove.data.movie.entity.MovieEntity
  * @author Melby Baldove
  * melbourne.baldove@owtoph.com
  */
-data class FetchTrendingResponse(val results: List<MovieEntity>)
+data class MoviesResponse(val results: List<MovieEntity>)

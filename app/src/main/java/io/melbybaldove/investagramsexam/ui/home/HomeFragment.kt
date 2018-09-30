@@ -5,10 +5,8 @@ import android.support.v7.widget.SearchView
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import com.airbnb.epoxy.EpoxyController
-import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
-import io.melbybaldove.authentication.Authenticator
 import io.melbybaldove.commons.LoadingOptions
 import io.melbybaldove.investagramsexam.R
 import io.melbybaldove.investagramsexam.dagger.BaseMvRxDaggerFragment
@@ -18,7 +16,6 @@ import io.melbybaldove.investagramsexam.ui.util.DialogHelper
 import io.melbybaldove.presentation.movie.MovieViewModel
 import io.melbybaldove.presentation.movie.ScreenState.SEARCH
 import io.melbybaldove.presentation.movie.ScreenState.TRENDING
-import io.melbybaldove.presentation.movie.detail.MovieDetailViewModel
 import io.melbybaldove.presentation.movie.model.MovieModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -29,8 +26,6 @@ import javax.inject.Inject
  */
 class HomeFragment : BaseMvRxDaggerFragment() {
     @Inject
-    lateinit var authenticator: Authenticator
-    @Inject
     lateinit var dialogHelper: DialogHelper
     private val movieViewModel: MovieViewModel by fragmentViewModel()
     private val movieController = MovieEpoxyController(::showMovieDetails)
@@ -39,9 +34,6 @@ class HomeFragment : BaseMvRxDaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!authenticator.isAuthenticated()) {
-            findNavController().navigate(R.id.action_login)
-        }
         setHasOptionsMenu(true)
         loadTrending()
     }
@@ -81,6 +73,7 @@ class HomeFragment : BaseMvRxDaggerFragment() {
             when (state.screenState) {
                 TRENDING -> showTrendingMovies(state.movies!!)
                 SEARCH -> showSearchResults(state.movies!!, state.query)
+                else -> {}
             }
         }
     }

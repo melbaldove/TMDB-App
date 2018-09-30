@@ -2,7 +2,7 @@ package io.melbybaldove.remote.movie
 
 import io.melbybaldove.data.movie.entity.MovieEntity
 import io.melbybaldove.remote.movie.request.RateMovieRequest
-import io.melbybaldove.remote.movie.response.FetchTrendingResponse
+import io.melbybaldove.remote.movie.response.MoviesResponse
 import io.melbybaldove.remote.movie.response.SearchMoviesResponse
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -14,7 +14,7 @@ import retrofit2.http.*
  */
 interface MovieApi {
     @GET("trending/movie/day")
-    fun fetchTrending(): Single<FetchTrendingResponse>
+    fun fetchTrending(): Single<MoviesResponse>
 
     @GET("search/movie")
     fun searchMovies(@Query("query") query: String,

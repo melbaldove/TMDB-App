@@ -27,4 +27,6 @@ class AuthenticatorImpl @Inject constructor(private val authenticationApi: Authe
             } else throw it
         }.blockingGet()!!
     }
+
+    override fun logout() = tokenRepository.evictToken()
 }

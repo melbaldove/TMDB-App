@@ -8,22 +8,25 @@
         android:name="io.melbybaldove.investagramsexam.ui.home.HomeFragment"
         android:label="HomeFragment">
         <action
-            android:id="@+id/action_login"
-            app:destination="@id/loginActivity" />
+            android:id="@+id/action_movieDetail"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/watchlistFragment"
+        android:name="io.melbybaldove.investagramsexam.ui.watchlist.WatchlistFragment"
+        android:label="WatchlistFragment" >
         <action
             android:id="@+id/action_movieDetail"
             app:destination="@id/movieDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"
-        android:name="io.melbybaldove.investagramsexam.ui.home.moviedetail.MovieDetailFragment"
+        android:name="io.melbybaldove.investagramsexam.ui.moviedetail.MovieDetailFragment"
         android:label="MovieDetailFragment">
         <argument
             android:name="movieId"
-            app:argType="string"
-            />
+            app:argType="string" />
     </fragment>
-
     <activity
         android:id="@+id/loginActivity"
         android:name="io.melbybaldove.investagramsexam.ui.login.LoginActivity"

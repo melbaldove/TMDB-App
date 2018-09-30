@@ -1,5 +1,6 @@
 package io.melbybaldove.investagramsexam.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,8 @@ import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import io.melbybaldove.investagramsexam.R
 import io.melbybaldove.investagramsexam.dagger.BaseMvRxDaggerFragment
-import io.melbybaldove.presentation.auth.AuthViewModel
 import io.melbybaldove.investagramsexam.ui.util.DialogHelper
+import io.melbybaldove.presentation.auth.AuthViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import javax.inject.Inject
 
@@ -21,6 +22,17 @@ class LoginFragment : BaseMvRxDaggerFragment() {
     private val authViewModel: AuthViewModel by fragmentViewModel()
     @Inject
     lateinit var dialogHelper: DialogHelper
+
+    private lateinit var loginDoneCallback: LoginDoneCallback
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is LoginDoneCallback) {
+            loginDoneCallback = context
+        } else {
+            throw IllegalStateException("Activity must implement LoginDoneCallback")
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -48,12 +60,14 @@ class LoginFragment : BaseMvRxDaggerFragment() {
 
             state.isLoginSuccess ?: return@withState
             if (state.isLoginSuccess!!) {
-                proceedToMainScreen()
+                fragmentManager?.popBackStack()
+                loginDoneCallback.onDoneLoggingIn()
             }
         }
     }
 
-    private fun proceedToMainScreen() {
-        fragmentManager?.popBackStack()
+    interface LoginDoneCallback {
+        fun onDoneLoggingIn()
     }
 }
+

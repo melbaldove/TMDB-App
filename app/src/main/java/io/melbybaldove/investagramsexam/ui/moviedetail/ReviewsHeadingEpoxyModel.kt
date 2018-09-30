@@ -1,4 +1,4 @@
-package io.melbybaldove.investagramsexam.ui.home.moviedetail
+package io.melbybaldove.investagramsexam.ui.moviedetail
 
 import android.support.annotation.StringRes
 import android.view.View

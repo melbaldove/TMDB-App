@@ -7,6 +7,7 @@ import com.squareup.inject.assisted.AssistedInject
 import io.melbybaldove.commons.ErrorModel
 import io.melbybaldove.commons.LoadingOptions
 import io.melbybaldove.commons.rx.SchedulerProvider
+import io.melbybaldove.domain.account.AccountInteractor
 import io.melbybaldove.domain.movie.MovieInteractor
 import io.melbybaldove.domain.movie.entity.RateMovieRequest
 import io.melbybaldove.presentation.BuildConfig
@@ -24,7 +25,8 @@ import io.reactivex.rxkotlin.addTo
 class MovieDetailViewModel @AssistedInject constructor(
         @Assisted initialState: MovieDetailState,
         private val schedulerProvider: SchedulerProvider,
-        private val movieInteractor: MovieInteractor) :
+        private val movieInteractor: MovieInteractor,
+        private val accountInteractor: AccountInteractor) :
         BaseMvRxViewModel<MovieDetailState>(initialState = initialState, debugMode = BuildConfig.DEBUG) {
     @AssistedInject.Factory
     interface Factory {
@@ -65,22 +67,30 @@ class MovieDetailViewModel @AssistedInject constructor(
         movieInteractor.rateMovie
                 .execute(RateMovieRequest(movieModel.id, rating))
                 .compose(schedulerProvider.ioToUi<Void>())
-                .subscribe({}, {
-                    setState {
-                        copy(errorModel = ErrorModel(message = it.localizedMessage))
-                    }
-                }).addTo(disposables)
+                .subscribe({}, ::defaultErrorHandler).addTo(disposables)
     }
 
     fun deleteRating(movieModel: MovieModel) {
         movieInteractor.deleteRating
                 .execute(movieModel.id)
                 .compose(schedulerProvider.ioToUi<Void>())
-                .subscribe({}, {
-                    setState {
-                        copy(errorModel = ErrorModel(message = it.localizedMessage))
-                    }
-                }).addTo(disposables)
+                .subscribe({}, ::defaultErrorHandler).addTo(disposables)
+    }
+
+    fun addToWatchlist(movie: MovieModel) {
+        accountInteractor.addToWatchlist.execute(movie.id)
+                .compose(schedulerProvider.ioToUi<Void>())
+                .subscribe({}, ::defaultErrorHandler).addTo(disposables)
+    }
+
+    fun removeFromWatchlist(movie: MovieModel) {
+        accountInteractor.removeFromWatchlist.execute(movie.id)
+                .compose(schedulerProvider.ioToUi<Void>())
+                .subscribe({}, ::defaultErrorHandler).addTo(disposables)
+    }
+
+    private fun defaultErrorHandler(it: Throwable) = setState {
+        copy(errorModel = ErrorModel(message = it.localizedMessage))
     }
 
     override fun onCleared() {

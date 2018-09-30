@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import io.melbybaldove.investagramsexam.dagger.scope.PerActivity
 import io.melbybaldove.investagramsexam.ui.home.HomeActivity
-import io.melbybaldove.investagramsexam.ui.home.di.HomeFragmentProvider
+import io.melbybaldove.investagramsexam.ui.home.di.FragmentProvider
 import io.melbybaldove.investagramsexam.ui.login.LoginActivity
 import io.melbybaldove.investagramsexam.ui.login.di.LoginFragmentProvider
 
@@ -19,6 +19,6 @@ abstract class ActivityBuilder {
     abstract fun bindLoginActivity(): LoginActivity
 
     @PerActivity
-    @ContributesAndroidInjector(modules = [HomeFragmentProvider::class])
+    @ContributesAndroidInjector(modules = [FragmentProvider::class])
     abstract fun bindHomeActivity(): HomeActivity
 }

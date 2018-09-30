@@ -1,5 +1,6 @@
 package io.melbybaldove.authentication
 
+import io.reactivex.Completable
 import io.reactivex.Single
 
 /**
@@ -9,4 +10,5 @@ import io.reactivex.Single
 interface Authenticator {
     fun authenticateWith(username: String, password: String): Single<String>
     fun isAuthenticated(): Boolean
+    fun logout(): Completable
 }

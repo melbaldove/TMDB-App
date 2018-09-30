@@ -8,5 +8,13 @@
         android:id="@+id/loginFragment"
         android:name="io.melbybaldove.investagramsexam.ui.login.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_navigateToHome"
+            app:destination="@id/homeActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="io.melbybaldove.investagramsexam.ui.home.HomeActivity"
+        android:label="HomeActivity" />
 </navigation>
