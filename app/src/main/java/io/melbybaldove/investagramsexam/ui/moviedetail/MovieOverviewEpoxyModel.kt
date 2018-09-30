@@ -42,6 +42,12 @@ abstract class MovieOverviewEpoxyModel : EpoxyModelWithHolder<MovieOverviewEpoxy
             layout_movie_overview_rating.text = movieDetailModel.movieModel.rating
             layout_movie_overview_release_date.text = movieDetailModel.movieModel.date
             layout_movie_overview_totalRates.text = movieDetailModel.movieModel.totalRates
+            if (movieDetailModel.myRating.toFloat() > 0) {
+                showRated(movieDetailModel.myRating)
+                layout_movie_overview_ratingBar.rating = movieDetailModel.myRating.toFloat()
+            } else {
+                showUnrated()
+            }
             layout_movie_overview_ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
                 if (fl > 0) {
                     listener.rate(movieDetailModel.movieModel, fl)
@@ -63,12 +69,7 @@ abstract class MovieOverviewEpoxyModel : EpoxyModelWithHolder<MovieOverviewEpoxy
                 layout_movie_overview_rating_layout.visibility = View.GONE
                 false
             }
-            if (movieDetailModel.myRating.toFloat() > 0) {
-                showRated(movieDetailModel.myRating)
-                layout_movie_overview_ratingBar.rating = movieDetailModel.myRating.toFloat()
-            } else {
-                showUnrated()
-            }
+
             layout_movie_overview_myRating_icon.setOnClickListener {
                 layout_movie_overview_rating_layout.visibility = if (layout_movie_overview_rating_layout.visibility == View.VISIBLE) {
                     View.GONE
