@@ -42,60 +42,67 @@ abstract class MovieOverviewEpoxyModel : EpoxyModelWithHolder<MovieOverviewEpoxy
             layout_movie_overview_rating.text = movieDetailModel.movieModel.rating
             layout_movie_overview_release_date.text = movieDetailModel.movieModel.date
             layout_movie_overview_totalRates.text = movieDetailModel.movieModel.totalRates
-            if (movieDetailModel.myRating.toFloat() > 0) {
-                showRated(movieDetailModel.myRating)
-                layout_movie_overview_ratingBar.rating = movieDetailModel.myRating.toFloat()
+            setupRatingViews(movieDetailModel.myRating)
+            setupWatchlistButton()
+        }
+    }
+
+    private fun View.setupRatingViews(rating: String) {
+        if (rating.toFloat() > 0) {
+            showRated(rating)
+        } else {
+            showUnrated()
+        }
+        layout_movie_overview_ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            if (fl > 0) {
+                listener.rate(movieDetailModel.movieModel, fl)
+                val newRating = if (fl == 10f) "10" else fl.toString()
+                showRated(newRating)
             } else {
+                listener.deleteRating(movieDetailModel.movieModel)
                 showUnrated()
-                layout_movie_overview_ratingBar.rating = 0f
             }
-            layout_movie_overview_ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
-                if (fl > 0) {
-                    listener.rate(movieDetailModel.movieModel, fl)
-                    val rating = if (fl == 10f) "10" else fl.toString()
-                    showRated(rating)
-                } else {
-                    listener.deleteRating(movieDetailModel.movieModel)
-                    showUnrated()
+            object : CountDownTimer(120, 1000) {
+                override fun onFinish() {
+                    layout_movie_overview_rating_layout.visibility = View.GONE
                 }
-                object : CountDownTimer(120, 1000) {
-                    override fun onFinish() {
-                        layout_movie_overview_rating_layout.visibility = View.GONE
-                    }
 
-                    override fun onTick(p0: Long) = Unit
-                }.start()
+                override fun onTick(p0: Long) = Unit
+            }.start()
+        }
+        setOnTouchListener { _, _ ->
+            layout_movie_overview_rating_layout.visibility = View.GONE
+            false
+        }
+        layout_movie_overview_myRating_icon.setOnClickListener {
+            layout_movie_overview_rating_layout.visibility = if (layout_movie_overview_rating_layout.visibility == View.VISIBLE) {
+                View.GONE
+            } else {
+                View.VISIBLE
             }
-            holder.view.setOnTouchListener { _, _ ->
-                layout_movie_overview_rating_layout.visibility = View.GONE
-                false
-            }
+        }
+    }
 
-            layout_movie_overview_myRating_icon.setOnClickListener {
-                layout_movie_overview_rating_layout.visibility = if (layout_movie_overview_rating_layout.visibility == View.VISIBLE) {
-                    View.GONE
-                } else {
-                    View.VISIBLE
-                }
-            }
-            layout_movie_overview_watchlist.text = if (movieDetailModel.inWatchlist) {
+    private fun View.setupWatchlistButton() {
+        layout_movie_overview_watchlist.text = if (movieDetailModel.inWatchlist) {
+            "Remove from watchlist"
+        } else {
+            "Add to watchlist"
+        }
+        layout_movie_overview_watchlist.setOnClickListener {
+            layout_movie_overview_watchlist.text = if (layout_movie_overview_watchlist.text == "Add to watchlist") {
+                listener.addToWatchlist(movieDetailModel.movieModel)
                 "Remove from watchlist"
             } else {
+                listener.removeFromWatchlist(movieDetailModel.movieModel)
                 "Add to watchlist"
-            }
-            layout_movie_overview_watchlist.setOnClickListener {
-                layout_movie_overview_watchlist.text = if (layout_movie_overview_watchlist.text == "Add to watchlist") {
-                    listener.addToWatchlist(movieDetailModel.movieModel)
-                    "Remove from watchlist"
-                } else {
-                    listener.removeFromWatchlist(movieDetailModel.movieModel)
-                    "Add to watchlist"
-                }
             }
         }
     }
 
     private fun View.showUnrated() {
+        layout_movie_overview_rating_layout.visibility = View.GONE
+        layout_movie_overview_ratingBar.rating = 0f
         layout_movie_overview_tv2.visibility = View.VISIBLE
         layout_movie_overview_tv3.visibility = View.INVISIBLE
         layout_movie_overview_myRating.visibility = View.INVISIBLE
@@ -103,6 +110,7 @@ abstract class MovieOverviewEpoxyModel : EpoxyModelWithHolder<MovieOverviewEpoxy
     }
 
     private fun View.showRated(myRating: String) {
+        layout_movie_overview_ratingBar.rating = myRating.toFloat()
         layout_movie_overview_tv2.visibility = View.INVISIBLE
         layout_movie_overview_tv3.visibility = View.VISIBLE
         layout_movie_overview_myRating.visibility = View.VISIBLE
