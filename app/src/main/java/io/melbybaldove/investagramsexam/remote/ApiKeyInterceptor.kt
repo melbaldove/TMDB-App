@@ -10,7 +10,6 @@ import javax.inject.Inject
  * melbourne.baldove@owtoph.com
  */
 class ApiKeyInterceptor @Inject constructor() : Interceptor {
-    var sessionId: String? = null
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val url = chain.request().url().newBuilder()
