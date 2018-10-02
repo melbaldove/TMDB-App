@@ -47,6 +47,7 @@ abstract class MovieOverviewEpoxyModel : EpoxyModelWithHolder<MovieOverviewEpoxy
                 layout_movie_overview_ratingBar.rating = movieDetailModel.myRating.toFloat()
             } else {
                 showUnrated()
+                layout_movie_overview_ratingBar.rating = 0f
             }
             layout_movie_overview_ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
                 if (fl > 0) {
